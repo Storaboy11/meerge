@@ -41,7 +41,7 @@ export function VisionSection() {
               <Truck className="w-8 h-8 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground mb-2">Massive Savings</h3>
-            <p className="text-sm text-muted-foreground">Up to 30% off</p>
+            <p className="text-sm text-muted-foreground">Up to 40% off</p>
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-background/20 mt-8 pt-8 text-center">
-          <p className="text-sm text-background/60">© 2025 Quick Market. All rights reserved.</p>
+          <p className="text-sm text-background/60">© 2025 Kittchens. All rights reserved.</p>
         </div>
       </div>
     </footer>

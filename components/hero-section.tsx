@@ -61,21 +61,24 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* Trust indicators with updated copy and 40% highlight */}
-          <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>Serving 5 Lagos Areas</span>
+          {/* ✅ Clean, Modern, Brand-Colored Trust Indicators */}
+          <div className="flex flex-wrap justify-center items-center gap-4 text-sm mt-8">
+            {/* Serving 5 Lagos Areas */}
+            <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
+              <MapPin className="h-4 w-4 text-primary" />
+              <span className="font-bold text-primary">Serving 5 Lagos Areas</span>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Save up to 40% */}
+            <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>
-                Save up to <span className="font-bold text-red-600">40%</span>
-              </span>
+              <span className="font-bold text-primary">Save up to 40%</span>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Weekly Deliveries */}
+            <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>Weekly Deliveries</span>
+              <span className="font-bold text-primary">Weekly Deliveries</span>
             </div>
           </div>
 

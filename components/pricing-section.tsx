@@ -1,10 +1,72 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Check } from "lucide-react"
-import { PricingTable } from "@/components/pricing-table"
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 export function PricingSection() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  // Location-based pricing table
+  const locationPricing: Record<
+    string,
+    {
+      "2 Slots": string;
+      "4 Slots": string;
+      "6 Slots": string;
+      "Unlimited Slots"?: string;
+    }
+  > = {
+    Yaba: {
+      "2 Slots": "₦6,000",
+      "4 Slots": "₦11,000",
+      "6 Slots": "₦17,000",
+      "Unlimited Slots": "₦19,000",
+    },
+    "Lekki Phase One": {
+      "2 Slots": "₦7,500",
+      "4 Slots": "₦14,000",
+      "6 Slots": "₦20,500",
+      "Unlimited Slots": "₦25,000",
+    },
+    "Lekki Phase Two": {
+      "2 Slots": "₦8,500",
+      "4 Slots": "₦16,000",
+      "6 Slots": "₦20,500",
+      "Unlimited Slots": "₦30,000",
+    },
+    Ikeja: {
+      "2 Slots": "₦5,500",
+      "4 Slots": "₦10,000",
+      "6 Slots": "₦14,000",
+      "Unlimited Slots": "₦19,000",
+    },
+    Surulere: {
+      "2 Slots": "₦6,000",
+      "4 Slots": "₦11,000",
+      "6 Slots": "₦16,000",
+    },
+  };
+
   const plans = [
+    {
+      name: "Pay as you Purchase",
+      description: "No subscription. Shop whenever you want.",
+      features: ["No commitment", "Pay per order", "Access to all delivery windows"],
+      payAsYouGo: true,
+    },
     {
       name: "2 Slots",
       description: "For light users",
@@ -28,81 +90,120 @@ export function PricingSection() {
         "6 delivery windows per month",
         "Priority customer support",
         "Area-specific pricing",
-        "Maximum bulk discounts",
+        "Extra savings on selected items",
       ],
     },
-    {
-      name: "Unlimited Slots",
-      description: "Full convenience",
-      features: [
-        "Unlimited delivery windows",
-        "24/7 premium support",
-        "Area-specific pricing",
-        "Maximum bulk discounts",
-        "Early access to new areas",
-      ],
-    },
-  ]
+  ];
+
+  const handlePlanSelect = (plan: string) => {
+    setSelectedPlan(plan);
+    setSelectedLocation(null);
+    if (plan === "Pay as you Purchase") {
+      router.push("/dashboard");
+    } else {
+      setOpen(true);
+    }
+  };
+
+  const handleProceedToPayment = () => {
+    if (selectedLocation && selectedPlan) {
+      localStorage.setItem(
+        "selectedLocation",
+        JSON.stringify({ location: selectedLocation, plan: selectedPlan })
+      );
+    }
+    setOpen(false);
+    router.push("/auth/login");
+  };
 
   return (
-    <section id="pricing" className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Flexible Subscription Slots</h2>
-          <p className="text-lg text-muted-foreground">Choose a plan that fits your lifestyle.</p>
-          <p className="text-sm text-muted-foreground mt-2">
-            Each slot equals one delivery window in your selected area.
-          </p>
-        </div>
+    <section className="py-12 bg-gray-50" id="pricing">
+      <div className="max-w-6xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold mb-6">Choose Your Plan</h2>
+        <p className="text-gray-600 mb-10">
+          Select a plan that fits your shopping habits. You can pay per order or choose a subscription for better value.
+        </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {plans.map((plan, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {plans.map((plan) => (
             <Card
-              key={index}
-              className={`relative ${plan.popular ? "border-primary shadow-lg scale-105" : "border-border"}`}
+              key={plan.name}
+              className={`p-6 shadow-md hover:shadow-xl transition border-2 ${
+                selectedPlan === plan.name ? "border-green-500" : "border-gray-200"
+              }`}
             >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-xl font-bold text-foreground">{plan.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{plan.description}</p>
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">
+                  {plan.name}
+                  {plan.popular && (
+                    <span className="ml-2 text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
+                      Popular
+                    </span>
+                  )}
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-muted-foreground">{feature}</span>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
+                <ul className="space-y-2 text-left">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-sm">
+                      <Check className="text-green-500 w-4 h-4" /> {feature}
                     </li>
                   ))}
                 </ul>
-                <Button
-                  className={`w-full rounded-full ${
-                    plan.popular
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  }`}
-                >
-                  Choose Plan
+                <Button className="mt-6 w-full" onClick={() => handlePlanSelect(plan.name)}>
+                  {plan.payAsYouGo ? "Start Shopping" : "Choose Plan"}
                 </Button>
               </CardContent>
             </Card>
           ))}
         </div>
-
-        <div className="mt-16">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-foreground mb-2">Detailed Pricing by Location</h3>
-            <p className="text-muted-foreground">See exact prices for each area and slot package</p>
-          </div>
-          <PricingTable />
-        </div>
       </div>
+
+      {/* Location Selection Dialog */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Select Your Location</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-3 mt-3">
+            {Object.keys(locationPricing).map((loc) => (
+              <Button
+                key={loc}
+                variant={selectedLocation === loc ? "default" : "outline"}
+                className="w-full justify-start"
+                onClick={() => setSelectedLocation(loc)}
+              >
+                {loc}
+              </Button>
+            ))}
+
+            {selectedLocation && selectedPlan && (
+              <div className="mt-4 p-4 border rounded-md bg-white">
+                <p className="text-sm text-gray-700">
+                  <span className="font-medium">Selected plan:</span> {selectedPlan}
+                </p>
+                <p className="text-lg font-semibold mt-2">
+                  Price: {locationPricing[selectedLocation]?.[selectedPlan as keyof typeof locationPricing[string]] ?? "—"}
+                </p>
+
+                <Button className="mt-4 w-full" onClick={handleProceedToPayment}>
+                  Proceed to payment
+                </Button>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            <div className="w-full">
+              <Button variant="ghost" className="w-full" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
-  )
+  );
 }

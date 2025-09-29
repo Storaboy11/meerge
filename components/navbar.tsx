@@ -44,18 +44,18 @@ export function Navbar() {
           {/* Desktop Navigation - centered */}
           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
             <div className="flex items-baseline space-x-8">
-              <a href="#home" className="text-foreground hover:text-primary transition-colors">
+              <Link href="/#home" className="text-foreground hover:text-primary transition-colors">
                 Home
-              </a>
-              <a href="#how-it-works" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link href="/#how-it-works" className="text-foreground hover:text-primary transition-colors">
                 How It Works
-              </a>
-              <a href="#pricing" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link href="/#pricing" className="text-foreground hover:text-primary transition-colors">
                 Pricing
-              </a>
-              <a href="#faqs" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link href="/#faqs" className="text-foreground hover:text-primary transition-colors">
                 FAQs
-              </a>
+              </Link>
               <Link href="/auth/login" className="text-foreground hover:text-primary transition-colors">
                 Sign In
               </Link>
@@ -81,18 +81,18 @@ export function Navbar() {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white rounded-lg shadow-lg mt-2">
-              <a href="#home" className="block px-3 py-2 text-foreground hover:text-primary">
+              <Link href="/#home" className="block px-3 py-2 text-foreground hover:text-primary">
                 Home
-              </a>
-              <a href="#how-it-works" className="block px-3 py-2 text-foreground hover:text-primary">
+              </Link>
+              <Link href="/#how-it-works" className="block px-3 py-2 text-foreground hover:text-primary">
                 How It Works
-              </a>
-              <a href="#pricing" className="block px-3 py-2 text-foreground hover:text-primary">
+              </Link>
+              <Link href="/#pricing" className="block px-3 py-2 text-foreground hover:text-primary">
                 Pricing
-              </a>
-              <a href="#faqs" className="block px-3 py-2 text-foreground hover:text-primary">
+              </Link>
+              <Link href="/#faqs" className="block px-3 py-2 text-foreground hover:text-primary">
                 FAQs
-              </a>
+              </Link>
               <Link href="/auth/login" className="block px-3 py-2 text-foreground hover:text-primary">
                 Sign In
               </Link>

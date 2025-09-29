@@ -17,7 +17,7 @@ export function HowItWorks() {
     {
       icon: Truck,
       title: "Get deliveries",
-      description: "Receive your groceries every Thursday or Friday",
+      description: "Receive your groceries every Thursday or Friday or Saturday",
       number: "3",
     },
   ]

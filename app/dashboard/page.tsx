@@ -140,7 +140,6 @@ export default function DashboardPage() {
         })
       } catch (toastError) {
         console.error("[v0] Toast error:", toastError)
-        // Fallback notification method if toast fails
         console.log("[v0] Item added to cart successfully (toast failed)")
       }
     } catch (error) {
@@ -191,14 +190,15 @@ export default function DashboardPage() {
                 <Badge variant="secondary">Order window CLOSED - Next window opens Sunday</Badge>
               )}
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+            {/* 🔥 CHANGE: Bold + highlighted section */}
+            <div className="flex flex-wrap items-center justify-center gap-4 text-sm bg-yellow-100 px-4 py-2 rounded-md font-bold text-yellow-900">
               <div className="flex items-center space-x-1">
                 <MapPin className="h-4 w-4" />
                 <span>Serving 5 Lagos Areas</span>
               </div>
               <div className="flex items-center space-x-1">
                 <TrendingDown className="h-4 w-4" />
-                <span>Save up to 30%</span>
+                <span>Save up to 40%</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Truck className="h-4 w-4" />

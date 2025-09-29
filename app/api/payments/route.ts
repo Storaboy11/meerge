@@ -1,20 +1,20 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get("id")
+    const body = await request.json()
     const apiBaseUrl = process.env.API_BASE_URL || "http://localhost:5000"
-    const res = await fetch(`${apiBaseUrl}/api/products/${id}`, {
-      method: "GET",
+    const res = await fetch(`${apiBaseUrl}/api/payments/initialize`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(body),
     })
     const data = await res.json()
     return NextResponse.json(data, { status: res.status })
   } catch (error) {
-    console.error("Product detail proxy error:", error)
+    console.error("Payment initialize proxy error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

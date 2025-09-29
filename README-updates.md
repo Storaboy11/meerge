@@ -1,3 +1,43 @@
+# Integration Steps for Next.js + Backend
+
+## 1. Environment Setup
+- Add `.env.local` with all required variables (see template).
+- Ensure `API_BASE_URL` points to backend (e.g., `http://localhost:5000`).
+
+## 2. Next.js Proxy Configuration
+- `next.config.mjs` now proxies `/api/*` requests to backend, avoiding CORS issues.
+
+## 3. Frontend API Calls
+- Use `/api/*` in frontend code; requests are proxied to backend.
+- Use `fetch` or `axios` in service/helper files.
+
+## 4. Authentication
+- NextAuth forwards JWT tokens to backend for protected routes.
+- Use `Authorization: Bearer <token>` for secure endpoints.
+
+## 5. Dev & Prod Scripts
+- Run backend: `cd api && npm run dev`
+- Run frontend: `npm run dev`
+- For unified dev: install `concurrently` and add script:
+  ```json
+  "dev:all": "concurrently \"npm run dev\" \"cd api && npm run dev\""
+  ```
+
+## 6. Testing
+- Use `components/ApiHealthCheck.tsx` to verify backend connectivity.
+- Check all CRUD operations in frontend against backend endpoints.
+
+## 7. Code Cleanliness
+- Remove mock API logic from Next.js API routes.
+- Use backend for all business logic and data.
+
+## 8. Deployment
+- Ensure backend is deployed and accessible to Next.js in production.
+- Set correct `API_BASE_URL` in production environment.
+
+---
+
+**For any missing or mismatched endpoints, log errors and update backend/frontend as needed.**
 # Quick Market Theme & Header Updates
 
 ## Files Modified

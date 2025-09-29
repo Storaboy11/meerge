@@ -1,61 +1,38 @@
-import { type NextRequest, NextResponse } from "next/server"
 
-// Mock addresses data
-const mockAddresses = [
-  {
-    id: "addr_1",
-    nickname: "Home",
-    fullAddress: "15 Adebayo Street, Yaba, Lagos",
-    isDefault: true,
-    type: "residential",
-  },
-  {
-    id: "addr_2",
-    nickname: "Office",
-    fullAddress: "Plot 123 Victoria Island, Lagos",
-    isDefault: false,
-    type: "commercial",
-  },
-]
+import { type NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   try {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    return NextResponse.json({
-      success: true,
-      data: mockAddresses,
+    const apiBaseUrl = process.env.API_BASE_URL || "http://localhost:5000"
+    const res = await fetch(`${apiBaseUrl}/api/users/locations`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
+    const data = await res.json()
+    return NextResponse.json(data, { status: res.status })
   } catch (error) {
-    console.error("Error fetching addresses:", error)
-    return NextResponse.json({ success: false, error: "Failed to fetch addresses" }, { status: 500 })
+    console.error("User locations proxy error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { nickname, fullAddress, isDefault, type } = body
-
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500))
-
-    const newAddress = {
-      id: `addr_${Date.now()}`,
-      nickname,
-      fullAddress,
-      isDefault: isDefault || false,
-      type: type || "residential",
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: newAddress,
-      message: "Address added successfully",
+    const apiBaseUrl = process.env.API_BASE_URL || "http://localhost:5000"
+    const res = await fetch(`${apiBaseUrl}/api/users/select-location`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
     })
+    const data = await res.json()
+    return NextResponse.json(data, { status: res.status })
   } catch (error) {
-    console.error("Error adding address:", error)
-    return NextResponse.json({ success: false, error: "Failed to add address" }, { status: 500 })
+    console.error("User select location proxy error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

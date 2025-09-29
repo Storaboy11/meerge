@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "dev:all": "concurrently \"npm run dev\" \"cd api && npm run dev\""
   },
   "dependencies": {
     "@auth/core": "latest",
